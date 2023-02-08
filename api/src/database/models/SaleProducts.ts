@@ -1,7 +1,5 @@
 import { INTEGER, Model } from 'sequelize';
 import db from '.';
-import Products from './Products';
-import Sales from './Sales';
 
 class SaleProducts extends Model {
   declare saleId: number
@@ -33,17 +31,17 @@ SaleProducts.init({
   timestamps: false,
 })
 
-Sales.belongsToMany(Products, {
-  as: "products",
-  through: SaleProducts,
-  foreignKey: "saleId",
-  otherKey: "productId",
-});
-Products.belongsToMany(Sales, {
-  as: "sales",
-  through: SaleProducts,
-  foreignKey: "productId",
-  otherKey: "saleId",
-});
+// Sales.belongsToMany(Products, {
+//   as: "products",
+//   through: SaleProducts,
+//   foreignKey: "saleId",
+//   otherKey: "productId",
+// });
+// Products.belongsToMany(Sales, {
+//   as: "sales",
+//   through: SaleProducts,
+//   foreignKey: "productId",
+//   otherKey: "saleId",
+// });
 
 export default SaleProducts

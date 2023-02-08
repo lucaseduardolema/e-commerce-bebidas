@@ -1,6 +1,5 @@
 import { INTEGER, Model, STRING } from 'sequelize';
 import db from '.';
-import Sales from './Sales';
 
 class User extends Model {
   declare id: number;
@@ -41,14 +40,14 @@ User.init({
   timestamps: false,
 });
 
-User.hasMany(Sales, {
-  as: 'sales',
-  foreignKey: 'user_id',
-})
+// User.hasMany(Sales, {
+//   as: 'sales',
+//   foreignKey: 'user_id',
+// })
 
-User.hasMany(Sales, {
-  as: 'sales',
-  foreignKey: 'seller_id',
-});
+// User.hasMany(Sales, {
+//   as: 'sales',
+//   foreignKey: 'seller_id',
+// });
 
 export default User;
