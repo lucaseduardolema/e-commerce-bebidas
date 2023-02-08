@@ -4,9 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "pm2": "./node_modules/.bin/pm2",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:prestart": "./scripts/prestart.sh",
+    "dev": "./scripts/dev.sh",
+    "stop": "./scripts/stop.sh"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "pm2": "^5.2.2"
+  }
 }

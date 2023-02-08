@@ -1,8 +1,7 @@
 /* eslint-disable max-lines-per-function */
 'use strict'
-
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
+  async up (queryInterface, Sequelize) {
     await queryInterface.createTable('users', {
       id: {
         allowNull: false,
@@ -10,26 +9,21 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      username: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      role: {
-        allowNull: false,
-        type: Sequelize.STRING
+      name: {
+        type: Sequelize.STRING(255)
       },
       email: {
-        allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING(255)
       },
       password: {
-        allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING(255)
+      },
+      role: {
+        type: Sequelize.STRING(255)
       }
     })
   },
-
-  down: async (queryInterface, _Sequelize) => {
+  async down (queryInterface, _Sequelize) {
     await queryInterface.dropTable('users')
   }
 }

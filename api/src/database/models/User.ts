@@ -1,9 +1,10 @@
 import { INTEGER, Model, STRING } from 'sequelize';
 import db from '.';
+import Sales from './Sales';
 
 class User extends Model {
   declare id: number;
-  declare username: string;
+  declare name: string;
   declare role: string;
   declare email: string;
   declare password: string;
@@ -16,7 +17,7 @@ User.init({
     primaryKey: true,
     type: INTEGER,
   },
-  username: {
+  name: {
     allowNull: false,
     type: STRING,
   },
@@ -34,8 +35,20 @@ User.init({
   },
 }, {
   sequelize: db,
-  modelName: 'users',
+  modelName: 'Users',
+  tableName: 'users',
+  underscored: true,
   timestamps: false,
+});
+
+User.hasMany(Sales, {
+  as: 'sales',
+  foreignKey: 'user_id',
+})
+
+User.hasMany(Sales, {
+  as: 'sales',
+  foreignKey: 'seller_id',
 });
 
 export default User;
