@@ -16,6 +16,10 @@ export default class AuthRoutes {
     this.authRoutes
       .route('/login')
       .post((req, res, next) => this.authController.login(req, res, next));
+
+    this.authRoutes
+      .route('/register-costumer')
+      .post((req, res, next) => this.authController.registerCustomer(req, res, next))
   }
 
   public getAuthRouter() {

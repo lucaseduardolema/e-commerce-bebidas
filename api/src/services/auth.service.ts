@@ -3,6 +3,7 @@ import 'dotenv/config';
 import { sign } from 'jsonwebtoken';
 import User from '../database/models/User';
 import ILogin from '../interfaces/ILogin';
+import IRegister from '../interfaces/IRegister';
 import HttpExeption from '../utils/HttpExeption';
 const md5 = require('md5');
 
@@ -20,11 +21,51 @@ export default class AuthService {
       where: { email: data.email },
     });
 
-    if (!user) throw new HttpExeption(404, 'User not found');
+    if (!user) throw new HttpExeption(404, 'Usuário não encontrado');
 
     this.checkPassword(data.password, user.password);
 
-    return this.generateToken({ id: user.id, email: user.email, role: user.role });
+    return this.generateToken({
+      id: user.id,
+      email: user.email,
+      role: user.role,
+    });
+  }
+
+  public async registerCustomer(data: IRegister) {
+    this.validateDataRegisterCustomer(data);
+
+    const user = await this._userModel.findOne({
+      where: { email: data.email },
+    });
+
+    if (user) throw new HttpExeption(409, 'Usuário já cadastrado');
+
+    const hash = md5(data.password);
+
+    const newUser = await this._userModel.create({
+      ...data,
+      password: hash,
+      role: 'customer',
+    });
+
+    return this.generateToken({
+      id: newUser.id,
+      email: data.email,
+      role: newUser.role,
+    });
+  }
+
+  private validateDataRegisterCustomer(data: IRegister) {
+    const schema = Joi.object({
+      name: Joi.string().min(6).required(),
+      email: Joi.string().email().required(),
+      password: Joi.string().min(8).required(),
+    });
+
+    const { error } = schema.validate(data);
+
+    if (error) throw new HttpExeption(400, error.message);
   }
 
   private validateDataLogin(data: ILogin) {
@@ -41,8 +82,7 @@ export default class AuthService {
   private checkPassword(inputPasswor: string, dbPassword: string) {
     const newHash = md5(inputPasswor);
 
-    if (newHash !== dbPassword)
-      throw new HttpExeption(400, 'Incorrect Password');
+    if (newHash !== dbPassword) throw new HttpExeption(400, 'Senha Incorreta');
   }
 
   private generateToken(data: object) {
