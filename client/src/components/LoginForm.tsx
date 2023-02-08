@@ -1,23 +1,31 @@
 import { Formik } from 'formik';
+import { useState } from 'react';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { loginFormSchema } from '../schemas/loginForm';
 import { postLogin } from '../services/auth.service';
 
 export default function LoginForm() {
-  const navigate = useNavigate()
+  const [errorMsg, setErrorMsg] = useState(null);
+  const navigate = useNavigate();
   return (
     <>
+      <div className='error-div'>{errorMsg && <h2>{errorMsg}</h2>}</div>
       <Formik
         validationSchema={loginFormSchema}
         onSubmit={async (values, actions) => {
           try {
-            await postLogin(values)
-            navigate('/customer/products')
-          } catch (error) {
-            console.error(error);
+            const { data } = await postLogin(values);
+            localStorage.setItem('accessToken', JSON.stringify(data.token));
+            navigate('/customer/products');
+          } catch (error: any) {
+            setErrorMsg(error.response.data.message);
           } finally {
             actions.setSubmitting(false);
+            actions.resetForm();
+            setTimeout(() => {
+              setErrorMsg(null);
+            }, 3000);
           }
         }}
         initialValues={{
@@ -26,7 +34,11 @@ export default function LoginForm() {
         }}
       >
         {({ values, handleSubmit, handleChange, touched, errors }) => (
-          <Form noValidate onSubmit={handleSubmit}>
+          <Form
+            noValidate
+            onSubmit={handleSubmit}
+            className='d-flex flex-column mb-4'
+          >
             <Form.Group className='mb-3' controlId='formEmail'>
               <Form.Label>Email</Form.Label>
               <InputGroup hasValidation>

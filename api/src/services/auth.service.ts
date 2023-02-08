@@ -24,7 +24,7 @@ export default class AuthService {
 
     this.checkPassword(data.password, user.password);
 
-    return this.generateToken({ id: user.id, email: user.email });
+    return this.generateToken({ id: user.id, email: user.email, role: user.role });
   }
 
   private validateDataLogin(data: ILogin) {
