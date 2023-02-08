@@ -47,13 +47,10 @@ export default function LoginForm() {
                   {errors.email}
                 </Form.Control.Feedback>
               </InputGroup>
-              <Form.Text className='text-muted'>
-                We'll never share your email with anyone else.
-              </Form.Text>
             </Form.Group>
 
             <Form.Group className='mb-3' controlId='formPassword'>
-              <Form.Label>Password</Form.Label>
+              <Form.Label>Senha</Form.Label>
               <InputGroup hasValidation>
                 <Form.Control
                   required
