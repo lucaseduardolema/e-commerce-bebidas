@@ -2,31 +2,29 @@ import Joi = require('joi');
 import 'dotenv/config';
 import { sign } from 'jsonwebtoken';
 import User from '../database/models/User';
-import IAuthService from '../interfaces/IAuthService';
 import ILogin from '../interfaces/ILogin';
 import IRegister from '../interfaces/IRegister';
 import HttpExeption from '../utils/HttpExeption';
+import AbstractService from './AbstractService';
 const md5 = require('md5');
 
-export default class AuthService implements IAuthService {
-  private _userModel;
-
+export default class AuthService extends AbstractService {
   constructor() {
-    this._userModel = User;
+    super(User);
   }
 
   public async userInfo(email: string): Promise<object> {
-    const user = await this._userModel.findOne({
+    const user = await this._model.findOne({
       where: { email },
     });
 
     if (!user) throw new HttpExeption(404, 'Usuário não encontrado');
 
-    return { name: user.name, role: user.role, email: user.email }
+    return { name: user.name, role: user.role, email: user.email };
   }
 
   public async login(data: ILogin): Promise<string> {
-    const user = await this._userModel.findOne({
+    const user = await this._model.findOne({
       where: { email: data.email },
     });
 
@@ -42,8 +40,7 @@ export default class AuthService implements IAuthService {
   }
 
   public async registerCustomer(data: IRegister): Promise<string> {
-
-    const user = await this._userModel.findOne({
+    const user = await this._model.findOne({
       where: { email: data.email },
     });
 
@@ -51,7 +48,7 @@ export default class AuthService implements IAuthService {
 
     const hash = md5(data.password);
 
-    const newUser = await this._userModel.create({
+    const newUser = await this._model.create({
       ...data,
       password: hash,
       role: 'customer',

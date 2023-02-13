@@ -30,7 +30,7 @@ export default function NavBar() {
             setNavText('Meus Pedidos');
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
     fetchUserInfo();
@@ -42,7 +42,7 @@ export default function NavBar() {
   }
 
   return (
-    <Navbar bg='light' variant='light'>
+    <Navbar bg='light' variant='light' className='mb-4'>
       <Container>
         <Navbar.Brand href='/'>E-commerce</Navbar.Brand>
 

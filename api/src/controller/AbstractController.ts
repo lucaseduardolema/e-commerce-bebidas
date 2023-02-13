@@ -1,8 +1,8 @@
 import { Router } from 'express';
 
 export default abstract class AbstractController<S> {
-  public router: Router;
-  public service: S;
+  protected router: Router;
+  protected service: S;
 
   constructor(service: S) {
     this.router = Router();
