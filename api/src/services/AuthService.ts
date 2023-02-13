@@ -2,21 +2,20 @@ import Joi = require('joi');
 import 'dotenv/config';
 import { sign } from 'jsonwebtoken';
 import User from '../database/models/User';
+import IAuthService from '../interfaces/IAuthService';
 import ILogin from '../interfaces/ILogin';
 import IRegister from '../interfaces/IRegister';
 import HttpExeption from '../utils/HttpExeption';
 const md5 = require('md5');
 
-export default class AuthService {
+export default class AuthService implements IAuthService {
   private _userModel;
 
   constructor() {
     this._userModel = User;
   }
 
-  public async login(data: ILogin) {
-    this.validateDataLogin(data);
-
+  public async login(data: ILogin): Promise<string> {
     const user = await this._userModel.findOne({
       where: { email: data.email },
     });
@@ -32,8 +31,7 @@ export default class AuthService {
     });
   }
 
-  public async registerCustomer(data: IRegister) {
-    this.validateDataRegisterCustomer(data);
+  public async registerCustomer(data: IRegister): Promise<string> {
 
     const user = await this._userModel.findOne({
       where: { email: data.email },
@@ -54,29 +52,6 @@ export default class AuthService {
       email: data.email,
       role: newUser.role,
     });
-  }
-
-  private validateDataRegisterCustomer(data: IRegister) {
-    const schema = Joi.object({
-      name: Joi.string().min(6).required(),
-      email: Joi.string().email().required(),
-      password: Joi.string().min(8).required(),
-    });
-
-    const { error } = schema.validate(data);
-
-    if (error) throw new HttpExeption(400, error.message);
-  }
-
-  private validateDataLogin(data: ILogin) {
-    const schema = Joi.object({
-      email: Joi.string().email().required(),
-      password: Joi.string().min(8).required(),
-    });
-
-    const { error } = schema.validate(data);
-
-    if (error) throw new HttpExeption(400, error.message);
   }
 
   private checkPassword(inputPasswor: string, dbPassword: string) {
