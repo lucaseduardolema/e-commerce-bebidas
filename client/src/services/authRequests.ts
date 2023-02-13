@@ -13,3 +13,10 @@ export async function postLogin(body: ILogin) {
 export async function postRegister(body: IRegister) {
   return api.post('/register-costumer', body)
 }
+
+export async function getUserInfo(token: string) {
+  const config = {
+    headers: { Authorization: token },
+  };
+  return api.get('/user-info', config)
+}

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { registerFormSchema } from '../schemas/registerForm';
-import { postRegister } from '../services/auth.service';
+import { postRegister } from '../services/authRequests';
 
 export default function RegisterForm() {
   const [errorMsg, setErrorMsg] = useState(null)

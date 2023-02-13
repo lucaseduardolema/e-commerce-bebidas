@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { loginFormSchema } from '../schemas/loginForm';
-import { postLogin } from '../services/auth.service';
+import { postLogin } from '../services/authRequests';
 
 export default function LoginForm() {
   const [errorMsg, setErrorMsg] = useState(null);
