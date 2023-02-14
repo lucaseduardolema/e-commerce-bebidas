@@ -30,7 +30,7 @@ export default function NavBar() {
             setNavText('Meus Pedidos');
         }
       } catch (error) {
-        console.error(error);
+        navigate('/login')
       }
     }
     fetchUserInfo();
