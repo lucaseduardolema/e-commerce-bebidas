@@ -4,5 +4,4 @@ import IRegister from "./IRegister";
 export default interface IAuthService {
   login(data: ILogin): Promise<string>
   registerCustomer(data: IRegister): Promise<string>
-  userInfo(email: string): Promise<object>
 }

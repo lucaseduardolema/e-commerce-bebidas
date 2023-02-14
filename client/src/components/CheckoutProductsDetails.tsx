@@ -53,7 +53,7 @@ export default function CheckoutProductsDetails() {
         </tbody>
       </Table>
 
-      <div className='text-center'>
+      <div className='text-center mb-4'>
         {`Total: R$ ${products
           .reduce((prev, curr) => prev + curr.subTotal, 0)
           .toFixed(2)

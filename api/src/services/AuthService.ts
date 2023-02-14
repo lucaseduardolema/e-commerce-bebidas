@@ -13,16 +13,6 @@ export default class AuthService extends AbstractService {
     super(User);
   }
 
-  public async userInfo(email: string): Promise<object> {
-    const user = await this._model.findOne({
-      where: { email },
-    });
-
-    if (!user) throw new HttpExeption(404, 'Usuário não encontrado');
-
-    return { name: user.name, role: user.role, email: user.email };
-  }
-
   public async login(data: ILogin): Promise<string> {
     const user = await this._model.findOne({
       where: { email: data.email },

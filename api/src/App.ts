@@ -3,6 +3,7 @@ import * as express from 'express';
 import 'express-async-errors';
 import AuthController from './controller/AuthController';
 import ProductsController from './controller/ProductsController';
+import UserController from './controller/UserController';
 import handleError from './middlewares/handelError';
 
 class App {
@@ -35,6 +36,7 @@ class App {
     this.app.get('/coffee', (_req, res) => res.status(418).end());
     this.app.use(new AuthController().initRoutes());
     this.app.use(new ProductsController().initRoutes())
+    this.app.use(new UserController().initRoutes())
   }
 
   private initMiddlewares(): void {
