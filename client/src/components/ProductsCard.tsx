@@ -11,14 +11,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import IProducts from '../interfaces/IProducts';
 import { getAllProducts } from '../services/productsRequests';
-
-type TCard = {
-  id: number;
-  name: string;
-  price: string;
-  subTotal: number;
-  quantity: number;
-};
+import ICart from '../interfaces/ICart';
 
 export default function ProductsCard() {
   const [products, setProducts] = useState<IProducts[]>([]);
@@ -116,7 +109,7 @@ export default function ProductsCard() {
 
   useEffect(() => {
     const cart = JSON.parse(localStorage.getItem('cart') ?? '{}');
-    const eachSutTotal: TCard[] = Object.values(cart);
+    const eachSutTotal: ICart[] = Object.values(cart);
     const newTotal = eachSutTotal.reduce((prev, curr): number => {
       return prev + curr.subTotal;
     }, 0);

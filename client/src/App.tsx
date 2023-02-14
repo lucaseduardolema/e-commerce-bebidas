@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import Checkout from './pages/Checkout';
 import CustomerProducts from './pages/CostumerProducts';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -12,6 +13,7 @@ export default function App() {
       <Route path='/login' element={<Login />} />
       <Route path='/register' element={<Register />} />
       <Route path='/customer/products' element={ <CustomerProducts />} />
+      <Route path='/customer/checkout' element={ <Checkout />} />
     </Routes>
   );
 }
